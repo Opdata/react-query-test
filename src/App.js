@@ -3,14 +3,13 @@ import Example from './example';
 
 function App() {
   // Queries
-  const { data } = useQuery('data', Example);
+  const { isLoading, data } = useQuery('data', Example);
   // console.log(isLoading, error, data);
   // console.log(data.results);
   return (
     <div>
       <ul>
-        {data !== undefined &&
-          data.results !== undefined &&
+        {!isLoading &&
           data.results.map((obj, index) => {
             return (
               <div key={index}>
