@@ -1,10 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+
+// import Button from './components/buttons';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  console.log('환경변수 : ', (import.meta.env.MY_PREFIX_TEST_CONST = 123));
 
   return (
     <>
@@ -28,8 +32,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      {/* <Button /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
