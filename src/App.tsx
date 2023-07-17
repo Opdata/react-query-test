@@ -8,7 +8,7 @@ function App() {
   const titleRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLInputElement>(null);
   const userIdRef = useRef<HTMLInputElement>(null);
-  const { isLoading, isFetching, data, error } = useQuery({
+  const { isLoading, isFetching, data, error, refetch } = useQuery({
     queryKey: ['getPost'],
     queryFn: getPost,
   });
@@ -57,6 +57,7 @@ function App() {
         <input ref={userIdRef} type="number" placeholder="content" />
       </form>
       <button onClick={postHandler}>post api</button>
+      <button onClick={() => refetch()}>refetch button</button>
       {/* <button onClick={putHandler}>put api</button> */}
     </>
   );
