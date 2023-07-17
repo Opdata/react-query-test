@@ -73,3 +73,6 @@ export default App;
 // enabled 옵션 값을 이용하여 지연 쿼리를 시킬 수 있다.
 // useQuery({ queryKey: ['todos', todoId], queryFn: () => fetchTodoById(todoId), enabled: shouldFetchTodo })
 // 지연쿼리를 사용할때는 isInitialLoading 플래그 값을 사용하며 현재 처음 불러오는 경우에만 참이 된다.
+
+// pagination 참고
+// https://tanstack.com/query/latest/docs/react/guides/paginated-queries
