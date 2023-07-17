@@ -19,7 +19,8 @@ function App() {
     mutationFn: ({ title, body, userId }: newPostType) => {
       return newPost(title, body, userId);
     },
-    retry: 10, // default 3 - 재시도 옵션
+    retry: 10, // default 3 - 재시도 옵션, true일시 무한 재시도
+    retryDelay: 1000, // default 0 - 재시도 딜레이 옵션, 최대옵션 30초
   });
 
   // const addMutation = useMutation({
@@ -35,7 +36,7 @@ function App() {
     mutation.mutate({ title, body, userId });
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     <p>isLoading...</p>;
   }
 
@@ -51,7 +52,6 @@ function App() {
         <p>{data?.title}</p>
         <p>{data?.body}</p>
       </div>
-      {isFetching && <p>isFetching...</p>}
       <form>
         <input ref={titleRef} type="text" placeholder="title" />
         <input ref={bodyRef} type="text" placeholder="body" />
