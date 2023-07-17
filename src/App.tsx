@@ -1,12 +1,13 @@
 import { useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
+import type { newPostType } from '@services/api';
 import { getPost, newPost } from '@services/api';
 
 function App() {
-  const titleRef = useRef<any>('');
-  const bodyRef = useRef<any>('');
-  const userIdRef = useRef<any>(0);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const bodyRef = useRef<HTMLInputElement>(null);
+  const userIdRef = useRef<HTMLInputElement>(null);
   const { isLoading, isFetching, data, error } = useQuery({
     queryKey: ['getPost'],
     queryFn: getPost,
@@ -15,25 +16,21 @@ function App() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationKey: ['newPost'],
-    mutationFn: ({
-      title,
-      body,
-      userId,
-    }: {
-      title: string;
-      body: string;
-      userId: number;
-    }) => newPost(title, body, userId),
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['getPost'] });
+    mutationFn: ({ title, body, userId }: newPostType) => {
+      return newPost(title, body, userId);
     },
   });
 
+  // const addMutation = useMutation({
+  //   mutationFn: (add) => fetch(`/api/data?add=${add}`),
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
+  // })
+
   const postHandler = () => {
-    const title = titleRef.current.value;
-    const body = bodyRef.current.value;
-    const userId = Number(userIdRef.current.value);
+    if (!titleRef.current || !bodyRef.current || !userIdRef.current) return;
+    const title = titleRef.current?.value;
+    const body = bodyRef.current?.value;
+    const userId = Number(userIdRef.current?.value);
     mutation.mutate({ title, body, userId });
   };
 
@@ -66,3 +63,7 @@ function App() {
 }
 
 export default App;
+
+// 개별 id별 api 요청 예시
+// useQuery({ queryKey: ['todos', todoId], queryFn: () => fetchTodoById(todoId) })
+// useQuery({queryKey: ['todos', todoId],queryFn: ({ queryKey }) => fetchTodoById(queryKey[1]),});

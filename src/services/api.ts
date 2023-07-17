@@ -1,11 +1,21 @@
+export type newPostType = {
+  title: string;
+  body: string;
+  userId: number;
+};
+
 const getPost = () => {
   return fetch('https://jsonplaceholder.typicode.com/posts/1').then((res) =>
     res.json()
   );
 };
 
-const newPost = (title: string, body: string, userId: number) => {
-  fetch('https://jsonplaceholder.typicode.com/posts', {
+const newPost = (
+  title: string,
+  body: string,
+  userId: number
+): Promise<void | Response> => {
+  return fetch('https://jsonplaceholder.typicode.com/posts', {
     method: 'POST',
     body: JSON.stringify({
       title,
