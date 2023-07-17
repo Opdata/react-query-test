@@ -19,6 +19,7 @@ function App() {
     mutationFn: ({ title, body, userId }: newPostType) => {
       return newPost(title, body, userId);
     },
+    retry: 10, // default 3 - 재시도 옵션
   });
 
   // const addMutation = useMutation({
@@ -68,3 +69,7 @@ export default App;
 // 개별 id별 api 요청 예시
 // useQuery({ queryKey: ['todos', todoId], queryFn: () => fetchTodoById(todoId) })
 // useQuery({queryKey: ['todos', todoId],queryFn: ({ queryKey }) => fetchTodoById(queryKey[1]),});
+
+// enabled 옵션 값을 이용하여 지연 쿼리를 시킬 수 있다.
+// useQuery({ queryKey: ['todos', todoId], queryFn: () => fetchTodoById(todoId), enabled: shouldFetchTodo })
+// 지연쿼리를 사용할때는 isInitialLoading 플래그 값을 사용하며 현재 처음 불러오는 경우에만 참이 된다.
