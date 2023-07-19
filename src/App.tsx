@@ -28,6 +28,8 @@ function App() {
   //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
   // })
 
+  // queryClient.invalidateQueries({ queryKey: ['getPost'] }); // getPost 키로 시작하는 모든 쿼리를 무효화
+
   const postHandler = () => {
     if (!titleRef.current || !bodyRef.current || !userIdRef.current) return;
     const title = titleRef.current?.value;
@@ -76,3 +78,13 @@ export default App;
 
 // pagination 참고
 // https://tanstack.com/query/latest/docs/react/guides/paginated-queries
+
+// placeholder query data
+// https://tanstack.com/query/latest/docs/react/guides/placeholder-query-data
+// 캐시에 지속되지 않으나 데이터를 가져오는 동안 쿼리를 성공적으로 렌더링할 수 있게 충분한 더미 데이터가 있는 경우 유용
+
+/**
+ * invalidateQueries 내부동작
+ * 1. 오래된것으로 표시하며 useQuery 혹은 관련 훅에서 모든 staleTime을 재정의 한다.
+ * 2. useQuery 혹은 관련 훅을 통해 렌더링되고 있을 경우 백그라운드에서도 다시 가져온다.
+ */
