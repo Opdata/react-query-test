@@ -19,6 +19,7 @@ function App() {
     mutationFn: ({ title, body, userId }: newPostType) => {
       return newPost(title, body, userId);
     },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getPost'] }),
     retry: 10, // default 3 - 재시도 옵션, true일시 무한 재시도
     retryDelay: 1000, // default 0 - 재시도 딜레이 옵션, 최대옵션 30초
   });
@@ -29,6 +30,8 @@ function App() {
   // })
 
   // queryClient.invalidateQueries({ queryKey: ['getPost'] }); // getPost 키로 시작하는 모든 쿼리를 무효화
+
+  // queryClient.invalidateQueries({predicate: (query) =>query.queryKey[0] === 'todos' && query.queryKey[1]?.version >= 10,}) // todos 키로 시작하고 version이 10 이상인 모든 쿼리를 무효화
 
   const postHandler = () => {
     if (!titleRef.current || !bodyRef.current || !userIdRef.current) return;
@@ -87,4 +90,10 @@ export default App;
  * invalidateQueries 내부동작
  * 1. 오래된것으로 표시하며 useQuery 혹은 관련 훅에서 모든 staleTime을 재정의 한다.
  * 2. useQuery 혹은 관련 훅을 통해 렌더링되고 있을 경우 백그라운드에서도 다시 가져온다.
+ * 3. 즉시 해당 쿼리를 다시 요청하는건 아니고, 다음 렌더링 사이클에서 쿼리가 필요로하는 상태에 따라 새로운 요청을 시작한다.
+ * 4. 무효화된 쿼리는 캐시에 여전히 존재하지만, 유효하지 않는 데이터로 표시된다.
+ * 5. 동일한 키에서 특정 쿼리만 무효화 하고 싶다면, 해당 쿼리가 사용하는 변수 등 동일하게 맞춰주면 해당 쿼리만 무효화를 진행한다.
+ * 6. 혹은 변수나 서브키가 없는 쿼리만 무효화 하고 싶다면 exact: true로 옵션을 추가해준다.
+ * 7. 더 구체적인 무효화 조건을 넣고 싶다면 아래같은 방식으로 적용하면 된다.
+ *
  */
