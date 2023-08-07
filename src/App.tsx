@@ -33,6 +33,28 @@ function App() {
 
   // queryClient.invalidateQueries({predicate: (query) =>query.queryKey[0] === 'todos' && query.queryKey[1]?.version >= 10,}) // todos 키로 시작하고 version이 10 이상인 모든 쿼리를 무효화
 
+  /**
+   * Updates from Mutation Responses 예시 코드
+ const mutation = useMutation({
+  mutationFn: editTodo,
+  onSuccess: data => {
+    queryClient.setQueryData(['todo', { id: 5 }], data)
+  }
+})
+
+mutation.mutate({
+  id: 5,
+  name: 'Do the laundry',
+})
+
+// The query below will be updated with the response from the
+// successful mutation
+const { status, data, error } = useQuery({
+  queryKey: ['todo', { id: 5 }],
+  queryFn: fetchTodoById,
+})
+ */
+
   const postHandler = () => {
     if (!titleRef.current || !bodyRef.current || !userIdRef.current) return;
     const title = titleRef.current?.value;
@@ -97,3 +119,17 @@ export default App;
  * 7. 더 구체적인 무효화 조건을 넣고 싶다면 아래같은 방식으로 적용하면 된다.
  *
  */
+
+//
+/**
+ * Updates from Mutation Responses 의 주의사항은 아래와 같다.
+ * 이 방법은 post, put 등 데이터 변경을 요청하였을때 서버로 부터 응답을 받기 전 프론트단의 캐시를 직접 조작하여 불필요한 네트워크 요청을 줄이는 방법이다.
+ * 하지만, 여기서 데이터에 대한 일관성이 보장될때만 사용하는 편이 좋다. / 데이터 변경 후 예상과 다른 데이터가 온다던지 했을때에는 문제가 발생하기 때문에 데이터에 정말 필수적으로 의지되야 하는 화면을 그릴때에는 지양하는것이 좋을거라고 생각된다.
+ *
+ */
+
+// Optimistic-updates 요청에 대한 문제가 생겼을때 롤백 관련 기능
+// https://tanstack.com/query/latest/docs/react/guides/optimistic-updates
+
+// Query Cancellation - http abortcontroller 과 같은 기능 제공 / 하지만 axios 요청코드 부분에서 직접 해주는게 좋을듯
+// https://tanstack.com/query/latest/docs/react/guides/query-cancellation
