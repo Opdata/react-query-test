@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@/': `${process.cwd()}/src/`,
-        '@components': `${process.cwd()}/src/components/`,
+        '@containers': `${process.cwd()}/src/containers/`,
         '@pages': `${process.cwd()}/src/pages/`,
         '@services': `${process.cwd()}/src/services/`,
       },
