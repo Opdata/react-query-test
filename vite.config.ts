@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@/': `${process.cwd()}/src/`,
         '@components': `${process.cwd()}/src/components/`,
+        '@pages': `${process.cwd()}/src/pages/`,
         '@services': `${process.cwd()}/src/services/`,
       },
     },
